@@ -19,7 +19,7 @@ The dataset can be downloaded here:
 
 ### Starting 3D-Fin in CloudCompare
 
-Simple **download the zip-folder, unpack it onto a folder** on your computer which you are able to find again and then **run CloudCompare by double-blicking the "CloudCompare.exe"** in the main file folder.
+ **Download the zip-folder, unpack it onto a folder** on your computer which you are able to find again and then **run CloudCompare by double-blicking the "CloudCompare.exe"** in the main file folder.
 
 This should lead to a situation as shown in Figure 1.
 
