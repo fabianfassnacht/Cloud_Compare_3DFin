@@ -92,30 +92,34 @@ In the following we will have a look at each of the outputs individually which i
 
 The first step in work-flow is to normalize the pointcloud and derive a digital terrain model (DTM). Figure 9 shows the visualization of the DTM of the example dataset as represented by a point cloud of the ground points.
 
-![Figure 9: DTM derived in the 3DFin work-flow](Fig_09.png)
+![Figure 9: DTM derived in the 3DFin work-flow](Fig_9_dtm.png)
 
 In figure 10, we can see the identified tree segments from the second step of the 3DFin work-flow during which point-cloud patterns showing a vertical continuity are identified in the user-defined height range (see stripe range setting above). In our case, all of these tree segments will be displayed for the height between 1.5 m and 4.5 m.
 
-![Figure 10: Tree segments identified by the 3DFin workflow](Fig_10.png)
+![Figure 10: Tree segments identified by the 3DFin workflow](Fig_10_stem_segments.png)
 
 As next step in the workflow an axis is fitted through each of the tree segments shown in Figure 10. These axes are then used as orientation for the circle-fitting algorithm. That is, along this axes, the algorithm will search for circular shapes, representing points reflected by the tree stem, within a circular (optionally user-defined) buffer around the axis.  This step will repeated in regular (optionally user-defined) height intervals. The axes for our example dataset are shown in Figure 11 and the respective circle fitting output is shown in Figure 12.
 
-![Figure 11: Axes fitted from the tree stem segments](Fig_11.png)
+![Figure 11: Axes fitted from the tree stem segments](Fig_11_axes.png)
 
 
 The axes (in Figure 11) are color-coded according to their tilting angle and you can see that axes that show a somewhat unexpected orientation (that is, deviating notably from the expected vertical orientation of a tree stem) are shown in red. This is not necessarily an indicator for wrongly identfied tree stems as trees sometimes are leaning but it might be a good idea to visually re-check such trees.
 
-![Figure 12: Circles fitted around the expected tree trunk as guided by the axes shown in Fig. 11](Fig_12.png)
+![Figure 12: Circles fitted around the expected tree trunk as guided by the axes shown in Fig. 11](Fig_12_fitted_sections.png)
 
 Similarly, fitted circles that show unexpected dimensions (for example a notably larger radius than the circle below) are displayed in red. In this case, most of the time the problematic circles should not be considered during subsequent processing step since it is actually quite rare that a tree will increase its diameter (notably) with height. This circle fitting quality information is also stored in the tabular output data that we will discuss further below in the Tutorial.
 
-![Figure 13: Distance axes](Fig_13.png)
+![Figure 13: Distance axes](Fig_13_distance_axis.png)
 
 In Figure 13 you can see the original point cloud using the distance to the stem axes (as shown in Figure 11) as color-coding. In this example this means that points shown in blue are very close to the stem axes while points shown in red are more distant from the stem axes. This is a quite helpful illustration to check how successful the work-flow was in correctly identifying points belonging to tree trunks. In our example, the workflow has performed very well and only a few trunks on the edge of the plot were not detected and most of these trunks seem to be incomplete due to the edge-effects in the pointcloud.
 
 In Figure 14 the height of each detected tree is displayed. The height is defined as the height of the highest non-isolated point in a circular region around the axes (Figure 11).
 
+![Figure 14: Tree height](Fig_14_height.png)
+
 Finally, in Figure 15, the diameter at breast height (DBH) of each tree is shown. The diameter at breast height is interpolated from the diameters of the fitted circles (Figure 12) above and below the height of 1.3 m for the 1.3 m height position where the DBH is typically measured in the field. In case there are no high-quality fitted circles available within a certain range above and below the 1.3 m position, the workflow will report a "non-reliable" instead of a diameter estimate.
+
+![Figure 15: Tree DBH](Fig_15_tree_locationspng.png)
 
 ### Tabular output data
 
