@@ -121,7 +121,68 @@ Finally, in Figure 15, the diameter at breast height (DBH) of each tree is shown
 
 ![Figure 15: Tree DBH](Fig_15_tree_locationspng.png)
 
+If you want to save the current state in Cloud Compare you have the option to save it into a "Cloud Compare Entities" binary file by selecting all the files in the DB Tree window and then select "File -> Save" (Fig. 16). Select "Cloud Compare Entities" as file format and then browse to a folder where you want to save the project and click "Save". You should now be able to re-load your current state with all files the next time you open CloudCompare by simply selecting "File -> Open".
+
+![Figure 16: Tree DBH](Fig_16_save_cc.png)
+
+
+We have now completed the basic 3DFin workflow in CloudCompare and will have a closer look at the tabular output data created by the workflow. This tabular output data is the main output which you will most likely want to use as inputs to additional processing-algorithms or as final results.
+
 ### Tabular output data
 
+As first step, browse to the output folder which you defined in CloudCompare before starting the computation of the 3DFin workflow. Then open the Excel-File that was created as output of the workflow. You should see a situation as shown in Figure 17.
+
+![Figure 17: Output Excel file](Fig_17_excel1.png)
+
+As you can see there are in total 9 separate sheets (marked with 1 in Figure 17) that contain all relevant results created by the 3DFin work-flow. In the following we will briefly explain the meaning of each sheet.
+
+*Plot Metrics*
+On the first sheet called "Plot Metrics" you find the total height (TH), the diameter at breast height (DBH) as well as the x-position (X) and y-position (Y) of each tree (T) identified in the point cloud (marked with 2 and 3 in Figure 17). In our example 30 trees were identified
+
+*Diameters*
+In the diameters sheet you can find diameter of all stem section (columns) of all trees (rows) (Figure 18). The number of stem sections varies based on the height of the trees and you will see that typically all trees will have several fields with 0 diameter in some higher stem section columns in the table.
+
+![Figure 18: Diameter sheet](Fig_18_excel2.png)
+
+*X*
+The X sheet contains the x-coordinates of the center points of all stem sections (columns) of all trees (rows) (Figure 19)
+
+![Figure 19: X sheet](Fig_19_excel3.png)
+
+
+*Y*
+The Y sheet contains the y-coordinates of the center points of all stem sections (columns) of all trees (rows)
+
+*Sections*
+The Sections sheet shows the heights of all stem section segments (Figure 20). These values depend on the user defined lowest section height and interval. These values are the same for all trees.
+
+![Figure 20: Sections sheet](Fig_20_excel4.png)
+
+*Quality sheets*
+The following four sheets contain information on the quality of each stem section. The first of the four quality sheets named *Q(Overall Quality 0-1)* is a binary summary of the other three quality sheet named *Q1(Outlier Probability)*, *Q2(Sector Occupancy)* and *Q3(Points Inner Circle)*
+
+add explanation how binary layer is created
+
+The  *Q1(Outlier Probability)* sheet contains a number for each stem segment of each trees  which indicates how likely it is that an identified segment is actually part of the tree stem (represented by all other tree segments of the same tree) (Figure 21).  The higher the value, the more likely that the section is an outlier. 
+
+This indicator value bases on a comparably simple calculation which is illustrated in Figure 22. To derive the indicator, the inclination-angle between an imaginary horizontal plane and a straight line between the center of a given stem section disc with the centers of all other stem sections is calculated (see Tree A section 1). Then, all of these inclination angles are summarized by xxxxxxxxxxxxxxxx. This step is then repeated for all stem section discs. 
+
+![Figure 21: Outlier indicator](Fig_21_excel5.png)
+
+As shown in Figure 22, the inclination angles of the inclination angles (symbolized by the arrows) of the visualized stem sections of Tree A (Section 1,2,3,7) are all very comparable and hence the indicator would not identify an outlier here. An important property of this approach as compared to a simpler approach (for example simply checking for deviations from a straight standing cylinder) is that it also suitable for leaning stems (which can occur in forests quite frequently).
+For Tree B - which contains a quite clear outlier stem section - we can see that for sections 1, 2 and 7, most of the arrows are still showing very comparable directions with only the arrow heading towards the outlier section showing a notably different angle. However, when we have a look at the arrow for Segment 5, we can see that the directions of the arrows are strongly variable for the outlier section which would then also be detected as an outlier by the indicator value. 
+
+![Figure 22: Outlier indicator](Fig_22_outlier_indicator.svg)
+The second quality indicator named *Q2(Sector Occupancy)* indicates whether for a given stem section, points were available around the complete stem disc ring. To assess this, the stem section ring is split up into 16 sectors and the algorithm checks how many of these 16 segments contain points (Figure 23).
+
+![Figure 23: Sector occupancy](Fig_23.png)
+
+The values given in the Excel sheet represent the percentage of sections containing points (Figure 24).
+
+![Figure 24: Sector occupancy sheet](Fig_24.png)
+Finally, the last quality indicator *Q3(Points Inner Circle)* is simply the number of points within the stem section ring. It is important to understand that in this case, the higher the number of points within the ring, the lower the probability that the stem section was correctly identified as the assumption is that you cannot have points reflected from within the tree stem.
+As you can see in Figure 25, we can see a value of 0 for most tree stem sections in the Excel sheet.
+
+![Figure 25: Point within circle](Fig_25.png)
 
 ### Additional options in the Advanced mode
