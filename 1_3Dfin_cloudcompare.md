@@ -241,3 +241,20 @@ It is important to understand that in this case, the higher the number of points
 Figure 25: Point within circle.
 
 ### Additional options in the Advanced mode
+
+With the information provided above you should now be able handle the 3D Fin workflow using the basic settings quite well. For comparably easy forest stands (that is homogeneous stands with little understorey and branching in the lower stem parts) and high quality laserscanning data you should be able to obtain reasonable results using only these basic settings.
+
+However, in some cases you might not reach a completely satisfying result with these settings alone. In this case, the advanced parameters in the second tab of the graphical user interface of the 3dFin workflow provide some additional options to adapt the workflow parameters (Figure 26).
+
+![Figure 26: Advanced Parameter settings](Fig_26.png)
+
+Figure 26: Advanced Parameter settings.
+
+You can adapt 6 settings in total and all of these settings relate to the 3rd part of the 3D Fin workflow in which the stem section discs are being identified. In the following we will provide a brief explanation of each of these settings:
+
+- **Expected maximum diameter:** As its name states, the user may provide the program with an estimate (in meters) of what is the maximum diameter expected for any stem. This value will be used to discard objects that have very large diameters which are unlikely to be trees at the given site.
+- **Stem search diameter:** This parameter defines the area that will be scanned during the stem extraction. All points falling in a circle around the identified stem axes (Fig. 11) with the diameter defined here will be considered during the circle fitting to identify potential stem section discs. Even if there is an expected maximum diameter for trees of for example 1 m, a larger margin helps the algorithm to discern the stem disc from its surrounding.
+- **Lowest section:** This parameter defines at which height above the ground the identification of tree sections should be started. The units are in meters.
+- **Highest section:** This parameter defines the height of the highest section. It must be a value larger than the lowest section and should be set to a realistic value based on the user's knowledge of the forest.
+- **Distance between sections:**  This parameter defines the interval at which sections will be computed among the lowest and highest ones.
+- **Section width / thickness:** This parameter defines the vertical range of each section for which the algorithm attempts to find a stem section disc.  Note that this value is added to each side of the section, which makes the effective section width double the input value: i.e., if a section’s starting height is 1 m and the section width is 0.05 m, then the points regarded as belonging to that section (and hence available for the circly fitting) are those with height values within [0.95-1.05] m range.
