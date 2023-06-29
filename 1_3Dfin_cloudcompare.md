@@ -60,7 +60,7 @@ If you want to adjust some basic visualization settings of the point cloud you c
 
 However, given that our example dataset comes with some RGB information, the standard visualization setting should already be quite acceptable.
 
-We will now start the 3DFin plugin by first selecting the loaded point-cloud in the DB Tree window of Cloud Compare (marked with 1 in Figure 5) and then click the drop-down menu "Plugins" and select "3D Forest Inventories" (marked with 2 in Figure 5).
+We will now start the 3DFin plugin by first **selecting the loaded point-cloud in the DB Tree window** of Cloud Compare (marked with 1 in Figure 5) and then **click the drop-down menu "Plugins" and select "3D Forest Inventories"** (marked with 2 in Figure 5).
 
 This will open the 3DFin plugin and its main window as shown in Figure 6.
 
@@ -275,11 +275,11 @@ A visualization of the dataset after loading it to CloudCompare can be seen in F
 
 **Exercise 1:**
 
-As first exercise, please download the dataset and then run the 3DFin work-flow either with the standard settings or slightly adapt the basic parameters based on the visual impression you have from the data as shown in CloudCompare (I selected a minimum height of 1.2 m and a maximum height of 4.2 m and kept the other parameters to their default values).
+As first exercise, **download the dataset** and then run the 3DFin work-flow either with the standard settings or slightly adapt the basic parameters based on the visual impression you have from the data as shown in CloudCompare (I selected a minimum height of 1.2 m and a maximum height of 4.2 m and kept the other parameters to their default values).
 
 **Exercise 2:**
 
-Have a close look at the produced data files and check whether you can see any problems with the created dataset. Check the following points:
+**Have a close look at the produced data files** and **check** whether you can see **any problems** with the created dataset. Particularly check the following points:
 
 - did the workflow detect all tree stems?
 - are the DBH measurements plausible?
@@ -319,20 +319,20 @@ In this specific case, the main reason for these suboptimal results is the quali
 
 We will now try to fix this by changing the so called "cloth-size" in the section "Height Normalization" in the expert settings of 3DFin.
 
-For this, we restart the 3DFin workflow and use the exactly same basic settings as in the run before but before we press the "compute" button, we switch to the "Expert"-tab of the 3DFin user interface and change the "Cloth resolution" to 0.4 m (marked in red in Fig. 32) and then press "Compute".
+For this, we restart the 3DFin workflow and use the exactly same basic settings as in the run before but before we press the "compute" button, we **switch to the "Expert"-tab** of the 3DFin user interface and **change the "Cloth resolution" to 0.4 m** (marked in red in Fig. 32) and then press **"Compute".**
 
 
 ![Figure 32: Change the cloth resolution.](Fig_32.png)
 
 **Figure 32: Change the cloth resolution.**
 
-The DTM obtained with these new settings looks notably better than the outputs of the first run. In a transect view (Fig. 33) it becomes is nicely visible that the terrain model now smoothly follows the shape of the ground shown in the original point cloud.
+The DTM obtained with these new settings looks notably better than the outputs of the first run. In a transect view (Fig. 33) it is nicely visible that the terrain model now smoothly follows the shape of the ground shown in the original point cloud.
 
 ![Figure 33: The DTM now matches the point cloud nicely.](Fig_33.png)
 **Figure 33: The DTM now matches the point cloud nicely.**
 
 
-We furthermore can see that the number of detected trees has increased from 57 to 70. A visual screening confirms that all trees have now been detected.  (Fig. 34). 
+We furthermore can see in the console outputs as well as in the greated tabular output data that the number of detected trees has increased from 57 to 70. A visual screening confirms that all trees have now been detected.  (Fig. 34). 
 
 
 ![Figure 34: Stems are now well detected.](Fig_34.png)
@@ -344,4 +344,6 @@ We can also see that in the standard outputs of the workflow or when activating 
 ![Figure 35: Standard output view of 3DFin after adjusting the cloth setting.](Fig_35.png)
 
 **Figure 35: Standard output view of 3DFin after adjusting the cloth setting.**
+
+
 
