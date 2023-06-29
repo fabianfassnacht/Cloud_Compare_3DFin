@@ -257,7 +257,7 @@ You can adapt 6 settings in total and all of these settings relate to the 3rd pa
 - **Section width / thickness:** This parameter defines the vertical range of each section for which the algorithm selects the points for fitting the stem section ring.  Note that this value is added to each side of the section, which makes the effective section width double the input value: i.e., if a section’s starting height is 1 m and the section width is 0.05 m, then the points regarded as belonging to that section (and hence available for the circly fitting) are those with height values within [0.975-1.025] m range.
 
 
-## Exercises
+## Exercise I - adjusting DTM interpolation settings
 
 ### Running 3DFin for a dataset collected with a mobile laserscanning system (GeoSlam)
 
@@ -345,5 +345,18 @@ We can also see that in the standard outputs of the workflow or when activating 
 
 **Figure 35: Standard output view of 3DFin after adjusting the cloth setting.**
 
+With this exercise you have learned one way of adjusting the 3D workflow in case the results with the standard settings are not satisfactory. Checking the quality of the DTM is generally recommended at is one of the few variables that can affect the workflow negatively. 
+
+If you fail to derive a high quality DTM using the algorithm integrated into the 3DFin workflow, but have managed to calculate a high-quality DTM in another software-environment (e.g., LAStools or FUSION), you can also provide an already normalized point-cloud file to 3DFin. 
+
+In this case you would **uncheck the "Normalize point cloud" box** in the Basic-tab of the 3DFin user interface. By unchecking the box, the drop-down menu "Normalized Height Field Name" will be activated and you will have to **select the attribute name** of the data column that includes the normalized height values of the point-cloud. After this, you can run the workflow as learned before.
+
+This option can also be used to reduce processing time: In case you have already run the 3DFin workflow successfully one time and the quality of the DTM was good, you can re-use the point-cloud created by the 3DFin workflow for this purposes. Each point cloud created by the 3DFin workflow contains a normalized height field and can hence be directly put into the workflow again without the need to normalize the point cloud again. One situation in which you could be interested in this is if you want to for example check how the outputs of the workflow is influenced by changing some of the settings in the "Advanced"-tab of the 3DFin user interface.
+
+With this final tip, we have reached the end of the tutorial with respect to the data processing in CloudCompare. In Exercise II we will learn how we can process the outputs of the 3DFin workflow to higher-level information products. More concretely, we will derive volume and then biomass estimates for the trees trunks identified from the first dataset.
+
+
+
+## Exercise II - calculating stem volumes and biomass for individual trees based on the 3Dfin outputs
 
 
