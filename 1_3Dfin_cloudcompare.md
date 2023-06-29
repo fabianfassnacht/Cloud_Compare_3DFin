@@ -1,5 +1,5 @@
 ﻿
-# Getting started with 3DFin to extract individual tree information from terrestrial point clouds
+## Getting started with 3DFin to extract individual tree information from terrestrial point clouds
 
 ### Objectives of tutorial
 
@@ -12,7 +12,7 @@
 To run this tutorial you will need a recent version of CloudCompare including the 3DFin plug-in. You can download a zip-file containing a running version for Windows here:
 
 
-You will furthermore need an example dataset. In our case we will use a terrestrial laserscan (TLS) from a pine stand (*Pinus sylvestris*) in a forest in Brandenburg, Germany.
+You will furthermore need an example dataset. In our case we will use a terrestrial laserscan (TLS) from a pine stand (*Pinus sylvestris*) in a forest in Brandenburg, Germany. This data were collected by Amelie Naderi and Hannes Bluhm of the Freie Universität Berlin with a Riegl vz400i in summer 2022.
 
 The dataset can be downloaded here:
 
@@ -255,3 +255,93 @@ You can adapt 6 settings in total and all of these settings relate to the 3rd pa
 - **Highest section:** This parameter defines the height of the highest section. It must be a value larger than the lowest section and should be set to a realistic value based on the user's knowledge of the forest. Since the increase of the value for the highest section is hardly affecting the processing time - in doubt - it is recommended to rather chose a higher value.
 - **Distance between sections:**  This parameter defines the interval at which sections will be computed among the lowest and highest ones.
 - **Section width / thickness:** This parameter defines the vertical range of each section for which the algorithm selects the points for fitting the stem section ring.  Note that this value is added to each side of the section, which makes the effective section width double the input value: i.e., if a section’s starting height is 1 m and the section width is 0.05 m, then the points regarded as belonging to that section (and hence available for the circly fitting) are those with height values within [0.975-1.025] m range.
+
+
+## Exercises
+
+### Running 3DFin for a dataset collected with a mobile laserscanning system (GeoSlam)
+
+In the first tutorial we were dealing with a TLS dataset from a forest stand with comparably simple structure and of high quality. In this exercise we will use a a new dataset which you can access here:
+
+
+This dataset was collected with a GeoSlam Horizon Mobile Laser Scanning (MLS) system in a forest stand which has a more complex forest structure with more pronounced understorey and also a more complex terrain situation. Furthermore, the dataset is a bit more noisy. MLS systems typically have an increased noise level as compared to the TLS data.
+
+A visualization of the dataset after loading it to CloudCompare can be seen in Figure 27.
+
+
+![Figure 27: MLS dataset in CloudCompare](Fig_27.png)
+
+**Figure 27: MLS dataset in CloudCompare.**
+
+**Exercise 1:**
+
+As first exercise, please download the dataset and then run the 3DFin work-flow either with the standard settings or slightly adapt the basic parameters based on the visual impression you have from the data as shown in CloudCompare (I selected a minimum height of 1.2 m and a maximum height of 4.2 m and kept the other parameters to their default values).
+
+**Exercise 2:**
+
+Have a close look at the produced data files and check whether you can see any problems with the created dataset. Check the following points:
+
+- did the workflow detect all tree stems?
+- are the DBH measurements plausible?
+- are the height measurements plausible?
+- is the DTM matching the expected shape of the terrain?
+
+**Please only continue reading after you have thoroughly examined the output files in the main visualization window of CloudCompare with respect to the four questions formulated above.**
+
+In case you have run the 3DFin workflow with the standard settings, it is quite likely that you have found some inconsistencies in the outputs. In the following, we will briefly summarize these inconsistencies and then provide a solution on how to fix them using the Expert settings of the 3DFin workflow.
+
+The expert settings rarely have to be touched by the user but there are a few exceptional cases where modifying the settings, particularly with respect to the Height Normalization procedure accomplished with the digital terrain model, can lead to improved results. But let's first have a look at the standard outputs:
+
+Let's start with the standard output of the workflow as shown in Figure 28. We can see that there is a quite high number of trees where the DBH estimate is not available because the workflow reported that the estimates are not reliable. At the same time quite a few stem sections are marked in red which indicates potential outliers that do not belong to the tree stem.
+
+![Figure 28: Standard outputs of the 3Dfin workflow applied to the MLS dataset ](Fig_28.png)
+**Figure 28: Standard outputs of the 3Dfin workflow applied to the MLS dataset.**
+
+So the results seem to be not as good as we have observed for the first dataset. Let us explore some more what the reason for this could be.  If we have a look at only the DTM (Fig. 29) we can see that there are some odd-looking parts in the DTM (marked in red in Fig. 29). 
+
+![Figure 29: DTM visualization](Fig_29.png)
+
+**Figure 28: DTM visualization.**
+
+If we additionally activate the point-cloud we can see that the interpolated DTM in some parts notable deviates from the point cloud (Fig. 30 marked in red). Please be aware that I have adjusted the visualization settings a bit (increased the point size of the DTM and changed the color-scale to "grey" for the point cloud) to make these problems a bit better visible.
+
+![Figure 30: Mismatch between DTM and point cloud](Fig_30.png)
+
+**Figure 30: Mismatch between DTM and point cloud.**
+
+When additionally also activating the detected tree stem segments in the stripe (see Tutorial above) we can also see that the workflow missed several trees during the stem detection phase (marked in Figure 31).
+
+![Figure 31: Several trees were not detected](Fig_31.png)
+
+**Figure 31: Several trees were not detected.**
+
+In this specific case, the main reason for these suboptimal results is the quality of the DTM. Since the DTM is not accurately representing the actual shape of the ground, the normalization of the heights leads to wrong point distributions in some parts of the dataset which affect the workflow negatively. The reason for the low quality of the DTM relates to the comparably steep regions between the individual terrace planes in the plot. The DTM interpolation in this case fails to accurately capture these steep parts because the spatial resolution applied during the DTM interpolation is too coarse. 
+
+We will now try to fix this by changing the so called "cloth-size" in the section "Height Normalization" in the expert settings of 3DFin.
+
+For this, we restart the 3DFin workflow and use the exactly same basic settings as in the run before but before we press the "compute" button, we switch to the "Expert"-tab of the 3DFin user interface and change the "Cloth resolution" to 0.4 m (marked in red in Fig. 32) and then press "Compute".
+
+
+![Figure 32: Change the cloth resolution.](Fig_32.png)
+
+**Figure 32: Change the cloth resolution.**
+
+The DTM obtained with these new settings looks notably better than the outputs of the first run. In a transect view (Fig. 33) it becomes is nicely visible that the terrain model now smoothly follows the shape of the ground shown in the original point cloud.
+
+![Figure 33: The DTM now matches the point cloud nicely.](Fig_33.png)
+**Figure 33: The DTM now matches the point cloud nicely.**
+
+
+We furthermore can see that the number of detected trees has increased from 57 to 70. A visual screening confirms that all trees have now been detected.  (Fig. 34). 
+
+
+![Figure 34: Stems are now well detected.](Fig_34.png)
+
+**Figure 35: Stems are now well detected.**
+
+We can also see that in the standard outputs of the workflow or when activating the "tree locator" layer in the DB tree window of CloudCompare that most of the trees now also have an estimate of the DBH. 
+
+![Figure 35: Standard output view of 3DFin after adjusting the cloth setting.](Fig_35.png)
+
+**Figure 35: Standard output view of 3DFin after adjusting the cloth setting.**
+
