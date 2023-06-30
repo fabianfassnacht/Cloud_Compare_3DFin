@@ -369,9 +369,9 @@ To calculate the volume of the Frustrum we use the following equation:
 
 **Equation 1: Frustum volume.**
 
-![Figure 36: Frustum ](Fig_36.png)
+![Figure 36: Frustum - Figure from Wikipedia: https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/01-Kegelstumpf-Definition-H%C3%B6he.svg/300px-01-Kegelstumpf-Definition-H%C3%B6he.svg.png ](Fig_36.png)
 
-**Figure 36: Frustum.**
+**Figure 36: Frustum. Figure from Wikipedia: https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/01-Kegelstumpf-Definition-H%C3%B6he.svg/300px-01-Kegelstumpf-Definition-H%C3%B6he.svg.png**
 
 Which is also defined at the beginning of the R code provided below. After excluding tree stem section that either have 0 diameters or where identified to be of low quality, the code iterates through the stem sections of each individual tree, one tree after another. 
 
