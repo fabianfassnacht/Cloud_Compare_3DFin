@@ -359,4 +359,130 @@ With this final tip, we have reached the end of the tutorial with respect to the
 
 ## Exercise II - calculating stem volumes and biomass for individual trees based on the 3Dfin outputs
 
+In the following you will find a code example for R with which you can calculate individual tree stem volumes from the 3DFin outputs. The code is based on the calculation of volumes of the frustums that can defined by the stem sections diameters identified by the 3DFin workflow and the height intervals between the identified stem section.
 
+In the code provided below, the outputs of the 3DFin workflow created during the first part of the Tutorial are processed. The code is commented with quite a lot of details and should be more or less self-explanatory.  
+
+To calculate the volume of the Frustrum we use the following equation:
+
+![Equation 1: Frustum volume](Equ_01.png)
+
+**Equation 1: Frustum volume.**
+
+![Figure 36: Frustum ](Fig_36.png)
+
+**Figure 36: Frustum.**
+
+Which is also defined at the beginning of the R code provided below. After excluding tree stem section that either have 0 diameters or where identified to be of low quality, the code iterates through the stem sections of each individual tree, one tree after another. 
+
+
+    ####################################################################
+    ### Derive wood volume estimates from 3D Fin Outputs
+    ####################################################################
+    
+    # set path to input files
+    setwd("E:/3D_Fin/Ouput")
+    
+    ####################
+    # load input files
+    ####################
+    
+    # load heights of stem sections (these are the same for each tree)
+    hts <- read.table("pointcloud_pines_brandenburg_sections.txt", sep=" ")
+    # load diameters of stem sections
+    dm <- read.table("pointcloud_pines_brandenburg_diameters.txt", sep=" ")
+    # load quality indicator
+    qu <- read.table("pointcloud_pines_brandenburg_check_circle.txt", sep=" ")
+    # load top height trees
+    tht <- read.table("pointcloud_pines_brandenburg_dbh_and_heights.txt", sep=" ") 
+    tht_trees <- tht$V1
+    
+    ####################
+    # define function to calculate volume of a frustrum
+    ####################
+    get_vol_fr <- function(h, Rbase, Rceil) {1/3*pi*(Rbase^2+(Rbase*Rceil)+Rceil^2)*h}
+    
+    
+    ####################
+    # calculate volume of all trees
+    ####################
+    
+    # create empty list to store results
+    tree_volume_list <- list()
+    
+    ####################
+    # first loop iterates through trees
+    ####################
+    
+    for (t in 1:nrow(dm)){
+      
+      # take diameters of t-th tree
+      dmt <- dm[t,]
+      # take quality of t-th tree
+      qut <- qu[t,]
+      
+      # merge diameters, quality and height information 
+      dmt_ht <- rbind(dmt, hts, qut)
+      
+      # drop stem sections 0 diameters and quality != 0 
+      dmt_clean <- dmt_ht[,(dmt_ht[1,]!=0)]
+      dmt_clean2 <- dmt_clean[,(dmt_clean[3,]==0)]
+      
+      # create empty list to save frustrum volumes for current tree
+      vollist <- list()
+      
+      ####################
+      # second loop iterates through stem sections of current tree
+      ####################
+      
+      for (i in 1:(ncol(dmt_clean2)-1)){
+        
+        # create second iterator variable to get height of next section
+        i2=i+1
+      
+        # calculate height of segment by subtracting height of current
+        # stem section from height of subsequent height section
+        ht_fr = as.numeric(dmt_clean2[2,i2]-dmt_clean2[2,i])
+        # get radius of current height section [multiply diameter times 0.5]
+        Rbase = dmt_clean2[1,i]*0.5 
+        # get radius of next height section
+        Rceil = dmt_clean2[1,i2]*0.5
+          
+        # insert height of segment and radius of base and ceiling section
+        # in volume formula
+        vol_temp <- get_vol_fr(ht_fr, Rbase, Rceil)
+        # save volume of current frstrum into list
+        vollist[[i]] <- vol_temp
+            
+        
+      }
+      
+      # calculate volume of last stem section to tree top
+      voltop <- pi*(dmt_clean2[1,i2]*0.5)^2*(tht_trees[t]-dmt_clean2[2,i2])
+      
+      # calculate total volume of all frustrums plus top cone
+      tot_vol <- do.call(sum, vollist) + voltop
+      
+      # store total volume of tree to list
+      tree_volume_list[[t]] <- tot_vol
+      
+      
+    }
+      
+    
+    # check single tree volumes
+    tree_volume_list
+    
+    # check volume of all trees combined
+    vol_stand <- do.call(sum, tree_volume_list) 
+
+
+At the end of the code, we will have a tree volume estimation for each tree stem identified in the 3DFin work-flow. Be aware that this code is based on a somewhat simplified assumption that the centers of all stem sections are located in a vertically continuous line which is most likely not the case. However, in most trees, the corresponding deviation should be comparably small.  
+
+**Exercise 1: Converting wood volume estimates to carbon stocks.**
+
+Conduct a web- and literature search and try to come up with a work-flow that translates the obtained wood volume estimates to carbon stocks (in kg or tons).
+
+ **Exercise 2: Converting wood volume estimates to biomass estimates.**
+ 
+Conduct a web- and literature-search and see whether you can find allometries to estimate total aboveground biomass either based on the obtained wood-volumes or based on other outputs the 3DFin workflow provides.
