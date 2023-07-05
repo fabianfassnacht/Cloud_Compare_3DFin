@@ -126,7 +126,7 @@ As next step in the workflow an axis is fitted through the centers of the tree s
 
 **Figure 11: Axes fitted from the tree stem segments.**
 
-The axes (in Figure 11) are color-coded according to their tilting angle and you can see that axes that show a higher tilting relative to the other trees (that is, deviating notably from the average vertical orientation of a tree stems in the dataset) are shown in red. This is not necessarily an indicator for wrongly identfied tree stems as trees sometimes are leaning but it might be a good idea to visually re-examine such trees by comparing the identified stem sections with the point cloud.
+The axes (in Figure 11) are color-coded according to their tilting angle and you can see that axes that show a higher tilting relative to the other trees (that is, deviating notably from the average vertical orientation of a tree stems in the dataset) are shown in red. This is not necessarily an indicator for wrongly identified tree stems as trees sometimes are leaning but it might be a good idea to visually re-examine such trees by comparing the identified stem sections with the point cloud.
 
 ![Figure 12: Circles fitted around the expected tree trunk as guided by the axes shown in Fig. 11](Fig_12_fitted_sections.png)
 **Figure 12: Circles fitted around the expected tree trunk as guided by the axes shown in Fig. 11.**
